@@ -8,7 +8,7 @@ SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-davidxvuong
 
 PV = "1.0+git${SRCPV}"
 # TODO: set to reference a specific commit hash in your assignment repo
-SRCREV = "38b4ad3c844ed98bfbda00bbc6c55ad39163ce4f"
+SRCREV = "374806a89d60b4a24677b3d732ade65985022782"
 
 # This sets your staging directory based on WORKDIR, where WORKDIR is defined at 
 # https://docs.yoctoproject.org/ref-manual/variables.html?highlight=workdir#term-WORKDIR
@@ -33,7 +33,8 @@ do_configure () {
 }
 
 do_compile () {
-	oe_runmake
+    oe_runmake USE_AESD_CHAR_DEVICE=1 clean
+    oe_runmake USE_AESD_CHAR_DEVICE=1
 }
 
 do_install () {
