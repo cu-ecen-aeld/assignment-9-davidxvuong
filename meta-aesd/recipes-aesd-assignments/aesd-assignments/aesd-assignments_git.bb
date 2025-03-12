@@ -8,7 +8,7 @@ SRC_URI = "git://git@github.com/cu-ecen-aeld/assignments-3-and-later-davidxvuong
 
 PV = "1.0+git${SRCPV}"
 # TODO: set to reference a specific commit hash in your assignment repo
-SRCREV = "a0fe142081f964af458f2aada34d99b8a00af584"
+SRCREV = "249eb2163054dad3d1151ad2d9cddc84e9d5d0aa"
 
 # This sets your staging directory based on WORKDIR, where WORKDIR is defined at 
 # https://docs.yoctoproject.org/ref-manual/variables.html?highlight=workdir#term-WORKDIR
@@ -23,6 +23,9 @@ FILES:${PN} += "${bindir}/aesdsocket"
 # (and remove comment)
 TARGET_LDFLAGS += "-pthread -lrt"
 
+EXTRA_OECFLAGS += "-I${WORKDIR}/git/aesd-char-driver"
+EXTRA_OEMAKE += 'CFLAGS="${CFLAGS} -DUSE_AESD_CHAR_DEVICE -I${WORKDIR}/git/aesd-char-driver"'
+
 inherit update-rc.d
 
 INITSCRIPT_PACKAGES = "${PN}"
@@ -33,8 +36,8 @@ do_configure () {
 }
 
 do_compile () {
-    oe_runmake USE_AESD_CHAR_DEVICE=1 clean
-    oe_runmake USE_AESD_CHAR_DEVICE=1
+    oe_runmake clean
+    oe_runmake
 }
 
 do_install () {
